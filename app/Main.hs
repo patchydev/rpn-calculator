@@ -1,6 +1,7 @@
 module Main where
 
 import System.Exit (exitWith, ExitCode(..))
+import Text.Read (readMaybe)
 
 repl :: [Integer] -> IO ()
 repl nums = do
@@ -11,11 +12,16 @@ repl nums = do
         print nums
         repl nums
     else do
-        let nums2 = (stringToInt input) : nums
-        repl nums2
+        let inputN = stringToInt input
+        case inputN of
+            Nothing -> do
+                exitWith(ExitFailure 1)
+            Just n -> do
+                let nums2 = nums ++ [n]
+                repl nums2
 
-stringToInt :: String -> Integer
-stringToInt s = read s
+stringToInt :: String -> Maybe Integer
+stringToInt s = readMaybe s
 
 main :: IO ()
 main = do
