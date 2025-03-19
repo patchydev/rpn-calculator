@@ -18,6 +18,14 @@ repl nums = do
             repl (init nums)
         else do
             repl nums
+    else if input == "+" then do
+        repl [sum nums]
+    else if input == "*" then do
+        repl [product nums]
+    else if input == "-" then do
+        repl [subList nums]
+    else if input == "/" then do
+        repl [divList nums]
     else do
         let inputN = stringToInt input
         case inputN of
@@ -26,6 +34,14 @@ repl nums = do
             Just n -> do
                 let nums2 = nums ++ [n]
                 repl nums2
+
+subList :: [Integer] -> Integer
+subList [] = 0
+subList (x:xs) = x - subList xs
+
+divList :: [Integer] -> Integer
+divList [] = 1
+divList (x:xs) = x `div` divList xs
 
 stringToInt :: String -> Maybe Integer
 stringToInt s = readMaybe s
